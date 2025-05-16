@@ -1,8 +1,8 @@
-name: Executar script meteorològic diàriament
+name: Executar script meteorològic cada 10 minuts
 
 on:
   schedule:
-    - cron: '59 21 * * *'  # Cada dia a les 23:59 hora d’Espanya (21:59 UTC)
+    - cron: '*/10 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -32,5 +32,5 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add temp_*.json
-          git commit -m "Afegit arxiu de temperatura del `date +%Y-%m-%d`" || echo "No hi ha canvis"
+          git commit -m "Afegit arxiu de temperatura del `date +%Y-%m-%d\ %H:%M`" || echo "No hi ha canvis"
           git push
