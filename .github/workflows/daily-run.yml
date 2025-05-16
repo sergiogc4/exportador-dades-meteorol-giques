@@ -1,0 +1,33 @@
+name: Executar script meteorològic diàriament
+
+on:
+  schedule:
+    - cron: '59 21 * * *'  # 23:59 hora d’Espanya (21:59 UTC)
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositori
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Instal·lar dependències
+        run: pip install requests
+
+      - name: Executar el script
+        run: python main.py
+
+      - name: Fer commit i push dels resultats
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add temp_*.json
+          git commit -m "Afegit arxiu de temperatura del `date +%Y-%m-%d`" || echo "No hi ha canvis"
+          git push
