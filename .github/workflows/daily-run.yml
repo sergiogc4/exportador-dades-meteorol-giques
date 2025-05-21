@@ -2,7 +2,6 @@ name: Executar script meteorològic cada 10 minuts
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
   workflow_dispatch:
 
 permissions:
